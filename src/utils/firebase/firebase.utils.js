@@ -18,14 +18,21 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
     prompt : 'select_account'
 })
 
 
 export const auth = getAuth();
-export const signInWithGooglePopup = ()=> signInWithPopup(auth,provider)
+
+
+// using google provider, we can signin using its AuthProvider
+export const signInWithGooglePopup = ()=> signInWithPopup(auth,googleProvider);
+
+//using google redirects & google provider if not popup
+export const signInWithGoogleRedirect = ()=> signInWithRedirect(auth,googleProvider)
+
 
 //databsse usage starts here
 export const db = getFirestore();
