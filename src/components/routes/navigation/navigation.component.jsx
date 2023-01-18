@@ -1,16 +1,17 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as CrownLogo } from "../../../assets/crown.svg";
 import { UserContext } from "../../../context/user.context";
-import './navigation.styles.scss'
+import { signOutUser } from "../../../utils/firebase/firebase.utils";
+import "./navigation.styles.scss";
 const Navigation = () => {
-  const {currentUser} = useContext(UserContext)
-  // console.log(currentUser)
+  const { currentUser } = useContext(UserContext);
+
   return (
     <>
       <nav className="navigation">
         <Link className="logo-container" to="/">
-          <CrownLogo className="logo"/>
+          <CrownLogo className="logo" />
         </Link>
         <ul className="nav-links-container">
           <li>
@@ -18,11 +19,15 @@ const Navigation = () => {
               SHOP
             </Link>
           </li>
-          <li>
+          {currentUser ? (
+            <span className="nav-link" onClick={signOutUser}>
+              SIGN OUT
+            </span>
+          ) : (
             <Link className="nav-link" to="/auth">
               SIGN IN
             </Link>
-          </li>
+          )}
         </ul>
       </nav>
       <main>

@@ -5,8 +5,7 @@ import {
 } from "../../utils/firebase/firebase.utils";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-import './sign-up-form.styles.scss'
-
+import "./sign-up-form.styles.scss";
 
 const defaultFormFields = {
   displayName: "",
@@ -34,7 +33,6 @@ const SignUpForm = () => {
         email,
         password
       );
-
       await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
     } catch (error) {
@@ -88,9 +86,11 @@ const SignUpForm = () => {
           required
           value={confirmPassword}
         />
-        
-        <Button buttonType='google' type="submit"> Sign Up</Button>
 
+        <Button buttonType="google" type="submit">
+          {" "}
+          Sign Up
+        </Button>
       </form>
     </div>
   );
