@@ -1,11 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+
+//we need collection referencebecause it lets us write to a brand new collection (just like the doc and document).
 const firebaseConfig = {
     apiKey: "AIzaSyDhh8UQE38viDQLjrD3ke7qoUuBqQ3wKxA",
     authDomain: "crwn-clothing-db-59ede.firebaseapp.com",
@@ -36,6 +38,40 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 
 //databsse usage starts here
 export const db = getFirestore();
+
+//to add a json as a collection on firestore
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db)
+
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase())
+        batch.set(docRef, object)
+    })
+
+    await batch.commit()
+    console.log('done')
+}
+
+//to pull said collection off firestore
+export const getCategoriesAndDocuments = async () => {
+    //reference the collection on database
+    const collectionRef = collection(db, 'categories');
+    // after, you create a query using the returned value from database
+    const q = query(collectionRef)
+
+    //using the query, you can get a snapshot of the categories using the getDocs method
+    const querySnapshot = await getDocs(q);
+
+    //query snapshot is where the collection lies, and using reduce we can pull out & accumulate data
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+        const { title, items } = docSnapshot.data();
+        acc[title.toLowerCase()] = items;
+        return acc
+    }, {})
+
+    return categoryMap
+}
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
     if (!userAuth) return;
