@@ -18,6 +18,6 @@ export const ItemCount = styled.span`
   position: absolute;
   font-size: 10px;
   font-weight: bold;
-  top: 50%;
-  transform: translateY(-50%, -50%);
+  top: 60%;
+  transform: translateY(-50%);
 `;
