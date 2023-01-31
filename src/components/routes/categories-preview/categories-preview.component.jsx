@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { CategoriesContext } from "../../../context/categories.context";
 import CategoryPreview from "../../category-preview/category-preview.component";
-// import "./categories-preview.styles.scss";
-
 const CategoriesPreview = () => {
   const { categoriesMap } = useContext(CategoriesContext);
   return (
