@@ -12,5 +12,5 @@ export const SignInContainer = styled.section`
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
 `;
